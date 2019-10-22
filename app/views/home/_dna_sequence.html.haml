@@ -1,0 +1,22 @@
+%div{id: "card-#{card_count}"}
+  .mt-3.font-weight-bold
+    DNA SEQUENCE #{card_count}
+    %a{href: '#'}
+      %i#close-card.float-right.material-icons{card_id: card_count} close
+  .card
+    .card-body
+      .card-title
+        Sequence:
+        %button#generate-sequence.btn.btn-info.btn-sm.float-right{:type => 'button', card_id: card_count} Generate
+      %textarea.form-control{id: "card-sequence-#{card_count}"}
+      .mt-3
+        Search:
+      %textarea.card-search.form-control{id: "sequence-search-#{card_count}", rows: '1', card_id: card_count}
+      %a{href: '#'}
+        %i#previous-sequence.material-icons{card_id: card_count} chevron_left
+      %a{href: '#'}
+        %i#next-sequence.material-icons{card_id: card_count} chevron_right
+      %br/
+      %span{id: "sequence-match-#{card_count}"}
+      %br/
+      %span{id: "sequence-index-#{card_count}"}

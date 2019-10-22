@@ -1,3 +1,5 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  root to: 'home#index'
+
+  get '/add_dna_sequence', to: 'home#add_dna_sequence'
 end

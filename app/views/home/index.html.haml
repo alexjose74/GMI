@@ -1,0 +1,9 @@
+%nav.navbar.bg-primary
+  %a.navbar-brand.text-white{href: '#'} Sequence Identifier
+.container
+  .row
+    .col-sm
+      %div
+        #dna-sequence-card
+      %div
+        = link_to "New", add_dna_sequence_path, id: 'add-card', class: 'btn btn-primary float-right mt-3'
