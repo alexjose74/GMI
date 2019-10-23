@@ -5,5 +5,9 @@
     .col-sm
       %div
         #dna-sequence-card
+      %div.mt-3
+        = link_to "Summary", add_summary_details_path, id: 'summary', class: 'btn btn-primary float-right ml-2', style: 'display: none;'
+        = link_to "New", add_dna_sequence_path, id: 'add-card', class: 'btn btn-primary float-right'
       %div
-        = link_to "New", add_dna_sequence_path, id: 'add-card', class: 'btn btn-primary float-right mt-3'
+        %br
+          #summary-details

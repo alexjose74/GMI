@@ -20,6 +20,11 @@ gem 'jquery-rails', '4.3.5'
 gem 'haml', '~> 5.0.4'
 gem 'haml-rails', '~> 1.0.0'
 gem 'material_icons', '~>2.2.1'
+gem 'pry', '~> 0.12.2'
+gem 'pry-byebug', '~> 3.3'
+gem 'pry-rails', '~> 0.3.2'
+gem 'pry-stack_explorer', '~> 0.4.9'
+gem 'i18n', '~> 1.7.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks

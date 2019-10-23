@@ -8,7 +8,7 @@
       .card-title
         Sequence:
         %button#generate-sequence.btn.btn-info.btn-sm.float-right{:type => 'button', card_id: card_count} Generate
-      %textarea.form-control{id: "card-sequence-#{card_count}"}
+      %textarea.form-control.card-sequence{id: "card-sequence-#{card_count}", card_id: card_count}
       .mt-3
         Search:
       %textarea.card-search.form-control{id: "sequence-search-#{card_count}", rows: '1', card_id: card_count}

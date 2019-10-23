@@ -1,0 +1,26 @@
+#summary-details
+  .card.mt-5
+    .card-body
+      .card-title
+        .font-weight-bold
+          SUMMARY
+      .font-weight-bold
+      %b
+        Total
+      %br/
+      #{summary[:total_searches]} search applied
+      %br/
+      #{summary[:total_search_results]} search results found
+      %br/
+      %br/
+      - summary[:sequence_details].each do |sequence|
+        - if sequence.sequence_input_present?
+          %b
+            = sequence.display_sequence_title
+          %br/
+          = sequence.display_search_text
+          %br/
+          - sequence.matches.each_with_index do |match, counter|
+            = sequence.display_matches_text(match,counter)
+            %br/
+          %br/
