@@ -3,4 +3,10 @@ Rails.application.routes.draw do
 
   get '/add_dna_sequence', to: 'home#add_dna_sequence'
   get '/add_summary_details', to: 'home#add_summary_details'
+
+  namespace :api do
+    post '/sequence', to: 'dna_sequence#sequence',
+         defaults: {format: 'json'},
+         as: :sequence
+  end
 end
