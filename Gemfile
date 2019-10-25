@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.4'
 
@@ -25,10 +24,10 @@ gem 'pry-byebug', '~> 3.3'
 gem 'pry-rails', '~> 0.3.2'
 gem 'pry-stack_explorer', '~> 0.4.9'
 gem 'i18n', '~> 1.7.0'
+gem 'httparty', '~> 0.17.1'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
-# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production

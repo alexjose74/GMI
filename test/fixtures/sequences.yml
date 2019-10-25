@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sequence: 
+  search: 
+  matches: MyString
+
+two:
+  sequence: 
+  search: 
+  matches: MyString

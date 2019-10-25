@@ -13,7 +13,8 @@ App.dnaSequence.init = function() {
   $(document).on('click', '#previous-sequence', App.dnaSequence.findPreviousSequence);
   $(document).on('input', '.card-search', App.dnaSequence.sequenceSearchChange);
   $(document).on('input', '.card-sequence', App.dnaSequence.sequenceChange);
-  $(document).on('click', '#summary', App.dnaSequence.updateSummaryDetails);
+  $(document).on('click', '#summary', App.dnaSequence.handleSequenceDetails);
+  $(document).on('click', '#save-sequence', App.dnaSequence.handleSequenceDetails);
 };
 
 App.dnaSequence.addCard = function(event) {
@@ -24,12 +25,14 @@ App.dnaSequence.addCard = function(event) {
     data: {cardNumber: cardCounter},
     success: function(cardData) {
       $('#dna-sequence-card').append(cardData);
-      sequenceSummaryMatches[cardCounter] = {matches: {}, search: {}, sequence: false};
+      sequenceSummaryMatches[cardCounter] = {matches: {}, search: {}, sequence: false, sequence_value: ''};
       cardCounter++;
     }
   });
 
   $('#summary').show();
+  $('#save-sequence').show();
+  $('#message').hide();
 };
 
 App.dnaSequence.deleteCard = function(event) {
@@ -42,7 +45,10 @@ App.dnaSequence.deleteCard = function(event) {
   if (cardsDisplayed.length === 0) {
     $('#summary').hide();
     $('#summary-details').hide();
+    $('#save-sequence').hide();
   }
+
+  $('#message').hide();
 };
 
 App.dnaSequence.sequenceChange = function(event) {
@@ -51,9 +57,11 @@ App.dnaSequence.sequenceChange = function(event) {
   if (sequence.length === 0) {
     sequenceSummaryMatches[event.currentTarget.attributes.card_id.value].sequence = false;
     sequenceSummaryMatches[event.currentTarget.attributes.card_id.value].matches = {};
+    sequenceSummaryMatches[event.currentTarget.attributes.card_id.value].sequence_value = '';
     App.dnaSequence.sequenceSearchChange(event);
   } else {
     sequenceSummaryMatches[event.currentTarget.attributes.card_id.value].sequence = true;
+    sequenceSummaryMatches[event.currentTarget.attributes.card_id.value].sequence_value = sequence;
     App.dnaSequence.sequenceSearchChange(event);
   }
 };
@@ -64,6 +72,7 @@ App.dnaSequence.generateSequence = function(event) {
 
   $(`#card-sequence-${event.currentTarget.attributes.card_id.value}`).val(generatedSequence);
   sequenceSummaryMatches[event.currentTarget.attributes.card_id.value].sequence = true;
+  sequenceSummaryMatches[event.currentTarget.attributes.card_id.value].sequence_value = generatedSequence;
 
   App.dnaSequence.sequenceSearchChange(event);
 };
@@ -201,7 +210,7 @@ App.dnaSequence.decrementHandler = function(event, matches) {
   }
 };
 
-App.dnaSequence.updateSummaryDetails = function(event) {
+App.dnaSequence.handleSequenceDetails = function(event) {
   event.preventDefault();
 
   let searches = 0;
@@ -218,13 +227,23 @@ App.dnaSequence.updateSummaryDetails = function(event) {
     sequenceSummaryMatches: sequenceSummaryMatches
   };
 
-  console.log(summaryDetails);
   $.ajax({
-    url: '/add_summary_details',
+    url: this.href,
     data: {summaryDetails: summaryDetails},
     format: 'json',
     success: function(cardData) {
-      $('#summary-details').replaceWith(cardData);
+      if (cardData.save) {
+        location.reload(true);
+      } else {
+        $('#message').hide();
+        $('#summary-details').replaceWith(cardData);
+      }
+    },
+    error: function (event) {
+      if (event.status === 500) {
+        $('#message').text("Your data could not be saved");
+        $('#message').show();
+      }
     }
   });
 };

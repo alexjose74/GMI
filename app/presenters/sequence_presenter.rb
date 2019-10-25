@@ -23,6 +23,10 @@ class SequencePresenter
     sequence_details[:sequence] == 'true'
   end
 
+  def sequence_input
+    sequence_details[:sequence_value] || ''
+  end
+
   def display_sequence_title
     I18n.t('sequence_identifier.summary.sequence.title', index: sequence_id)
   end
