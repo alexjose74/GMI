@@ -126,8 +126,8 @@ App.dnaSequence.generateSequence = function(event) {
 App.dnaSequence.sequenceSearchChange = function(event) {
   const inputSequence = $(`#card-sequence-${event.currentTarget.attributes.card_id.value}`).val();
   const searchSequence = $(`#sequence-search-${event.currentTarget.attributes.card_id.value}`).val();
-  var foo = inputSequence;
-  var match, matches = [];
+  let foo = inputSequence;
+  let match, matches = [];
 
   sequenceSummaryMatches[event.currentTarget.attributes.card_id.value].matches = matches;
   sequenceSummaryMatches[event.currentTarget.attributes.card_id.value].search = searchSequence;
@@ -138,7 +138,7 @@ App.dnaSequence.sequenceSearchChange = function(event) {
     return;
   }
 
-  var regexp = RegExp(searchSequence, 'g');
+  let regexp = RegExp(searchSequence, 'g');
 
   while ((match = regexp.exec(foo)) != null) {
     matches.push(match.index + 1);
@@ -200,10 +200,10 @@ App.dnaSequence.updateSequence = function(event, changeType) {
   if (searchSequence === "") return;
 
 
-  var regexp = RegExp(searchSequence, 'g');
-  var foo = inputSequence;
-  var match, matches = [];
-  var indexDetail;
+  let regexp = RegExp(searchSequence, 'g');
+  let foo = inputSequence;
+  let match, matches = [];
+  let indexDetail;
 
   while ((match = regexp.exec(foo)) != null) {
     matches.push(match.index + 1);
