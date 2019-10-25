@@ -1,16 +1,16 @@
 %div{id: "card-#{card_count}"}
   .mt-3.font-weight-bold
-    DNA SEQUENCE #{card_count}
+    =  I18n.t('sequence_identifier.dna_sequence_card.title', card_count: card_count)
     %a{href: '#'}
       %i#close-card.float-right.material-icons{card_id: card_count} close
   .card
     .card-body
       .card-title
-        Sequence:
+        = I18n.t('sequence_identifier.dna_sequence_card.sequence')
         %button#generate-sequence.btn.btn-info.btn-sm.float-right{:type => 'button', card_id: card_count} Generate
       %textarea.form-control.card-sequence{id: "card-sequence-#{card_count}", card_id: card_count}
       .mt-3
-        Search:
+        = I18n.t('sequence_identifier.dna_sequence_card.search')
       %textarea.card-search.form-control{id: "sequence-search-#{card_count}", rows: '1', card_id: card_count}
       %a{href: '#'}
         %i#previous-sequence.material-icons{card_id: card_count} chevron_left

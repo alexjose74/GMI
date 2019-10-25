@@ -1,12 +1,23 @@
 class HomeController < ApplicationController
-  def index
 
+  # Public: The root route for the web application.
+  #
+  # Returns nil.
+  def index
   end
 
+  # Public: Sets up the view for adding a new DNA sequence card. This function is intended to be hit from an Ajax call.
+  #         It does not render a base layout.
+  #
+  # Renders a partial which contains just the new sequence card.
   def add_dna_sequence
     render partial: 'dna_sequence', locals: {card_count: params[:cardNumber]}, layout: false
   end
 
+  # Public: Sets up the view for displaying the summary details for the DNA sequences. This function is intended
+  #         to be hit from an Ajax call. It does not render a base layout.
+  #
+  # Renders a partial which has all the summary details of the DNA sequence being searched.
   def add_summary_details
     summary_params = params[:summaryDetails]
     summary_details = []
@@ -26,6 +37,9 @@ class HomeController < ApplicationController
     render partial: 'summary_details', locals: {summary: summary}, layout: false
   end
 
+  # Public: Saves the sequence details into a public API. This is done via a REST call.
+  #
+  # Returns a status code for the save attempt.
   def save_sequence_details
     summary_params = params[:summaryDetails]
     summary_details = []
@@ -59,6 +73,11 @@ class HomeController < ApplicationController
 
   private
 
+  # Internal: Build a hash details for each sequence passed into the function.
+  #
+  # sequence - A SequencePresenter object
+  #
+  # Returns a hash which has all the necessary values of the sequence to be saved.
   def build_api_body(sequence)
     {
       sequence: sequence.sequence_input,
@@ -67,6 +86,11 @@ class HomeController < ApplicationController
     }
   end
 
+  # Internal: Calculates the count of the number of search results across all sequences.
+  #
+  # summary_details: An array of all the sequences
+  #
+  # Returns an Integer, which is the total number of search results across all sequences.
   def total_search_results(summary_details)
     total_count = 0
 

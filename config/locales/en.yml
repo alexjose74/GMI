@@ -1,7 +1,17 @@
 en:
   sequence_identifier:
+    main_content:
+      title: "Sequence Identifier"
+      save: "Save"
+      summary: "Summary"
+      new: "New"
+    dna_sequence_card:
+      title: "DNA SEQUENCE %{card_count}"
+      sequence: "Sequence:"
+      search: "Search:"
     summary:
-      total:
+      title: "SUMMARY"
+      total: "Total"
       sequence:
         title: "Sequence %{index}"
         search_result:

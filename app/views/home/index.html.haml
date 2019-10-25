@@ -1,14 +1,15 @@
 %nav.navbar.bg-primary
-  %a.navbar-brand.text-white{href: '#'} Sequence Identifier
+  %a.navbar-brand.text-white{href: '#'}
+    = I18n.t('sequence_identifier.main_content.title')
 .container
   .row
     .col-sm
       %div
         #dna-sequence-card
       %div.mt-3
-        = link_to "Save", save_sequence_details_path, id: 'save-sequence', class: 'btn btn-primary float-right ml-2', style: 'display: none;'
-        = link_to "Summary", add_summary_details_path, id: 'summary', class: 'btn btn-primary float-right ml-2', style: 'display: none;'
-        = link_to "New", add_dna_sequence_path, id: 'add-card', class: 'btn btn-primary float-right'
+        = link_to I18n.t('sequence_identifier.main_content.save'), save_sequence_details_path, id: 'save-sequence', class: 'btn btn-primary float-right ml-2', style: 'display: none;'
+        = link_to I18n.t('sequence_identifier.main_content.summary'), add_summary_details_path, id: 'summary', class: 'btn btn-primary float-right ml-2', style: 'display: none;'
+        = link_to I18n.t('sequence_identifier.main_content.new'), add_dna_sequence_path, id: 'add-card', class: 'btn btn-primary float-right'
       %div
         %br
           #message

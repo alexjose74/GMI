@@ -3,10 +3,10 @@
     .card-body
       .card-title
         .font-weight-bold
-          SUMMARY
+          = I18n.t('sequence_identifier.summary.title')
       .font-weight-bold
       %b
-        Total
+        = I18n.t('sequence_identifier.summary.total')
       %br/
       #{summary[:total_searches]} search applied
       %br/
