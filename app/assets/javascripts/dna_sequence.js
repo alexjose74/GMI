@@ -5,6 +5,9 @@ let sequenceSummaryMatches = {};
 const next = 'next';
 const previous = 'previous';
 
+/**
+ * Sets up all the event handlers required for the sequence data-card add/delete, search and save.
+ */
 App.dnaSequence.init = function() {
   $(document).on('click', '#add-card', App.dnaSequence.addCard);
   $(document).on('click', '#close-card', App.dnaSequence.deleteCard);
@@ -17,6 +20,13 @@ App.dnaSequence.init = function() {
   $(document).on('click', '#save-sequence', App.dnaSequence.handleSequenceDetails);
 };
 
+/**
+ * Makes an Ajax call to the rails controller layer to retrieve the view for adding a new sequence data-card
+ *
+ * @param event - The event which triggered a new card to be added
+ *
+ * @returns undefined
+ */
 App.dnaSequence.addCard = function(event) {
   event.preventDefault();
 
@@ -30,11 +40,19 @@ App.dnaSequence.addCard = function(event) {
     }
   });
 
+  // After a card has been added, we want to make sure that save, summary, and message details options.
   $('#summary').show();
   $('#save-sequence').show();
   $('#message').hide();
 };
 
+/**
+ * Removes the sequence data-card for the action has been called
+ *
+ * @param event - The event which triggered a the particular card to be removed
+ *
+ * @returns undefined
+ */
 App.dnaSequence.deleteCard = function(event) {
   event.preventDefault();
 
@@ -42,6 +60,9 @@ App.dnaSequence.deleteCard = function(event) {
   $(`#card-${event.currentTarget.attributes.card_id.value}`).remove();
 
   let cardsDisplayed = $("#dna-sequence-card").find(".card-body");
+
+  // If there are no cards displayed on the view i.e all cards have been removed, we would not want to display
+  // the save, summary, and message details options.
   if (cardsDisplayed.length === 0) {
     $('#summary').hide();
     $('#summary-details').hide();
@@ -51,6 +72,13 @@ App.dnaSequence.deleteCard = function(event) {
   $('#message').hide();
 };
 
+/**
+ * Handles the updates to be made on every change of the input sequence
+ *
+ * @param event - The event which was triggered due to the change in a sequence
+ *
+ * @returns undefined
+ */
 App.dnaSequence.sequenceChange = function(event) {
   let sequence = $(`#card-sequence-${event.currentTarget.attributes.card_id.value}`).val();
 
@@ -58,14 +86,25 @@ App.dnaSequence.sequenceChange = function(event) {
     sequenceSummaryMatches[event.currentTarget.attributes.card_id.value].sequence = false;
     sequenceSummaryMatches[event.currentTarget.attributes.card_id.value].matches = {};
     sequenceSummaryMatches[event.currentTarget.attributes.card_id.value].sequence_value = '';
+
+    // If there is a change in the sequence, and a search query already exists, we would want to update the match details
     App.dnaSequence.sequenceSearchChange(event);
   } else {
     sequenceSummaryMatches[event.currentTarget.attributes.card_id.value].sequence = true;
     sequenceSummaryMatches[event.currentTarget.attributes.card_id.value].sequence_value = sequence;
+
+    // If there is a change in the sequence, and a search query already exists, we would want to update the match details
     App.dnaSequence.sequenceSearchChange(event);
   }
 };
 
+/**
+ * Generates a random sequence of the characters C,A,G,T and length 150 characters. This gets appended to the sequence data-card.
+ *
+ * @param event - The event which was triggered to generate a new sequence
+ *
+ * @returns undefined
+ */
 App.dnaSequence.generateSequence = function(event) {
   const allowedSequence = 'CAGT';
   const generatedSequence = Array.from({length:150}, _ => allowedSequence[Math.floor(Math.random()*allowedSequence.length)]).join('');
@@ -77,6 +116,13 @@ App.dnaSequence.generateSequence = function(event) {
   App.dnaSequence.sequenceSearchChange(event);
 };
 
+/**
+ * Searches the input sequence for occurrences of the input search query.
+ *
+ * @param event - The event which was triggered due to the addition/update of a search query
+ *
+ * @returns undefined
+ */
 App.dnaSequence.sequenceSearchChange = function(event) {
   const inputSequence = $(`#card-sequence-${event.currentTarget.attributes.card_id.value}`).val();
   const searchSequence = $(`#sequence-search-${event.currentTarget.attributes.card_id.value}`).val();
@@ -115,16 +161,38 @@ App.dnaSequence.sequenceSearchChange = function(event) {
   }
 };
 
+/**
+ * Searches the input sequence for occurrences of the "next" input search query.
+ *
+ * @param event - The event which was triggered to find the next search query
+ *
+ * @returns undefined
+ */
 App.dnaSequence.findNextSequence = function(event) {
   event.preventDefault();
   App.dnaSequence.updateSequence(event, next);
 };
 
+/**
+ * Searches the input sequence for occurrences of the "previous" input search query.
+ *
+ * @param event - The event which was triggered to find the previous search query
+ *
+ * @returns undefined
+ */
 App.dnaSequence.findPreviousSequence = function(event) {
   event.preventDefault();
   App.dnaSequence.updateSequence(event, previous);
 };
 
+/**
+ * Searches the input sequence for occurrences of a search query.
+ *
+ * @param event - The event which was triggered to update the search for the search query
+ * @param changeType - This param expects two possible values: next, previous
+ *
+ * @returns undefined
+ */
 App.dnaSequence.updateSequence = function(event, changeType) {
   const inputSequence = $(`#card-sequence-${event.currentTarget.attributes.card_id.value}`).val();
   const searchSequence = $(`#sequence-search-${event.currentTarget.attributes.card_id.value}`).val();
@@ -153,6 +221,14 @@ App.dnaSequence.updateSequence = function(event, changeType) {
 };
 
 
+/**
+ * Builds the message text which describes the index at which a search query was found
+ *
+ * @param event - The event which was triggered to build the message
+ * @param changeType - This param expects two possible values: next, previous
+ *
+ * @returns a String
+ */
 App.dnaSequence.buildIndexMessage = function(event, changeType) {
   let index;
   let indexValue = sequenceSearchDetails[event.currentTarget.attributes.card_id.value].indexValue;
@@ -172,6 +248,14 @@ App.dnaSequence.buildIndexMessage = function(event, changeType) {
   }
 };
 
+/**
+ * Handles the logic around the counters for every trigger for a "next" search of a search query
+ *
+ * @param event - The event which was triggered find the next occurrence of a search query
+ * @param macthes - This param expects two possible values: next, previous
+ *
+ * @returns undefined
+ */
 App.dnaSequence.incrementHandler = function(event, matches) {
   if(sequenceSearchDetails[event.currentTarget.attributes.card_id.value]) {
     let currentIndex = sequenceSearchDetails[event.currentTarget.attributes.card_id.value].index;
@@ -193,6 +277,14 @@ App.dnaSequence.incrementHandler = function(event, matches) {
   }
 };
 
+/**
+ * Handles the logic around the counters for every trigger for a "previous" search of a search query
+ *
+ * @param event - The event which was triggered find the previous occurrence of a search query
+ * @param macthes - This param expects two possible values: next, previous
+ *
+ * @returns undefined
+ */
 App.dnaSequence.decrementHandler = function(event, matches) {
   if(sequenceSearchDetails[event.currentTarget.attributes.card_id.value]) {
     let currentIndex = sequenceSearchDetails[event.currentTarget.attributes.card_id.value].index;
@@ -210,6 +302,14 @@ App.dnaSequence.decrementHandler = function(event, matches) {
   }
 };
 
+/**
+ * Builds a JSON hash which has all the details for the number of searches, total searches found and the details of each search.
+ * This function is used to handle both the "save" and "summary" functionality
+ *
+ * @param event - The event which was triggered to either "save" or display the "summary" of the sequences
+ *
+ * @returns undefined
+ */
 App.dnaSequence.handleSequenceDetails = function(event) {
   event.preventDefault();
 
