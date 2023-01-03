@@ -17,7 +17,7 @@ gem 'pry-byebug', '~> 3.3'
 gem 'pry-rails', '~> 0.3.2'
 gem 'pry-stack_explorer', '~> 0.4.9'
 gem 'i18n', '~> 1.7.0'
-gem 'httparty', '~> 0.17.1'
+gem 'httparty', '~> 0.21.0'
 gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
